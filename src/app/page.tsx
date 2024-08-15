@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Home() {
-  const [number, setNumber] = useState(23);
+  const [number, setNumber] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   const [undo, setUndo] = useState<(() => void)[]>([]);
   const [redo, setRedo] = useState<(() => void)[]>([]);
@@ -12,6 +12,7 @@ export default function Home() {
     if (number + 1 <= 150) {
       setUndo([...undo, subtractNumber]);
       setNumber(number + 1);
+
     } else {
       setErrorMsg("Number should not be more than 150");
     }
@@ -21,6 +22,7 @@ export default function Home() {
     if (number - 1 >= 0) {
       setUndo([...undo, addNumber]);
       setNumber(number - 1);
+
     } else {
       setErrorMsg("Number should not be less than 0");
     }
@@ -29,8 +31,8 @@ export default function Home() {
   const undoNumber = () => {
     if (undo.length === 0) {
       setErrorMsg("Now, you can't apply undo.");
-    } else {
 
+    } else {
       const lastAction = undo.pop();
       if (lastAction) {
         lastAction();
@@ -45,11 +47,9 @@ export default function Home() {
       setErrorMsg("Now, you can't apply redo.");
 
     } else {
-
       const lastRedoAction = redo.pop();
       if (lastRedoAction) {
         lastRedoAction();
-        setUndo([...undo, lastRedoAction]);
       }
       setRedo([...redo]);
     }
